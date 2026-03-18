@@ -186,7 +186,7 @@ const Profile = () => {
             Privacy & Safety
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed mb-4">
-            Your privacy is our top priority. All conversations are encrypted and never shared with third parties. You can delete your data at any time.
+            Your privacy is our top priority. All conversations are encrypted and never shared with third parties. You can delete your data at anytime.
           </p>
           <div className="flex gap-3">
             <Button

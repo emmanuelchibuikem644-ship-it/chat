@@ -101,7 +101,7 @@ body {
 }
 
 /* Delay helpers */
-.delay-200 {
+ .delay-200 {
   animation-delay: 0.2s;
 }
 .delay-400 {

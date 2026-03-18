@@ -19,7 +19,7 @@ export default function MessageList({ messages }) {
                 Emotion: {msg.emotion}
               </div>
             )}
-            <div className="text-[10px] text-gray-400 mt-1 text-right">
+             <div className="text-[10px] text-gray-400 mt-1 text-right">
               {msg.time ? new Date(msg.time).toLocaleTimeString() : ""}
             </div>
           </div>

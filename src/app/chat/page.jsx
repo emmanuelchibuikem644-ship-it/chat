@@ -28,7 +28,7 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      (
+      const response = (
         
         {
          

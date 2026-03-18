@@ -8,7 +8,7 @@ export default function Message({ text, sender, time }) {
           ${
             isUser
               ? "bg-blue-600 text-white"
-              : "bg-white text-gray-800"
+            : "bg-white text-gray-800"
           }`}
       >
         <p>{text}</p>

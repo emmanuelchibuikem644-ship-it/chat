@@ -13,7 +13,7 @@ export default function DashboardNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border/50 text-black bg-white/80">
+  <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border/50 text-black bg-white/80">
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-2">

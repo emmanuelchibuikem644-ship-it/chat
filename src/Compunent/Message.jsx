@@ -1,7 +1,7 @@
  export default function Message({ text, from }) {
   const isUser = from === "user";
   return (
-    <div
+  <div
       className={`p-3 rounded-lg max-w-[80%] ${
         isUser
           ? "bg-blue-200 self-end text-right"

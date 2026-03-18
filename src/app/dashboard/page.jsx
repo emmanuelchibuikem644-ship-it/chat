@@ -166,7 +166,7 @@ export default function Dashboard() {
           <div className="inline-flex items-center gap-2 text-black/70">
             <Sparkles className="h-4 w-4 text-black" />
             <span className="text-sm italic">
-              "You're doing great. One day at a time."
+              "You're doing great. One step at a time."
             </span>
           </div>
         </div>

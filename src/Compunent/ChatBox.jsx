@@ -26,7 +26,7 @@ export default function ChatBox() {
   }
 
   return (
-    <div className="flex flex-col space-y-3 h-[500px] overflow-auto p-4 border rounded-lg bg-white shadow-md">
+  <div className="flex flex-col space-y-3 h-[500px] overflow-auto p-4 border rounded-lg bg-white shadow-md">
       {history.map((m, i) => (
         <Message key={i} text={m.text} from={m.from} />
       ))}
