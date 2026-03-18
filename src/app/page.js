@@ -147,7 +147,7 @@ export default function Home() {
             </div>
 
             <Button className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
-              <Link href="/signup">Start Your Journey</Link>
+              <Link href="/signup">Start Your Jourery .</Link>
             </Button>
           </div>
         </div>
