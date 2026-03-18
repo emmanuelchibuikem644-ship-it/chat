@@ -16,25 +16,24 @@ export default function Dashboard() {
   const [data, setData] = useState({
     moodCheckins: 0,
     conversations: 0,
-    wellnessScore: "Loading...",
+    wellnessScore: 0,
     userName: "",
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // ✅ Use the same token key saved during login
     const token = localStorage.getItem("access");
     if (!token) {
-      // Redirect to login if no token
       window.location.href = "/login";
       return;
     }
 
     const fetchDashboardData = async () => {
       try {
-        // ✅ Use your deployed backend URL
         const API_BASE = "https://solace-2.onrender.com";
+
         const res = await fetch(`${API_BASE}/api/dashboard/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -43,13 +42,13 @@ export default function Dashboard() {
 
         const json = await res.json();
 
-        // ✅ Use username from login localStorage if backend doesn't return it
-        const username = json.name || localStorage.getItem("username") || "User";
+        const username =
+          json.name || localStorage.getItem("username") || "User";
 
         setData({
-          moodCheckins: json.moodCheckins,
-          conversations: json.conversations,
-          wellnessScore: json.wellnessScore,
+          moodCheckins: json.moodCheckins ?? 0,
+          conversations: json.conversations ?? 0,
+          wellnessScore: json.wellnessScore ?? 0,
           userName: username,
         });
       } catch (err) {
@@ -73,7 +72,7 @@ export default function Dashboard() {
           style={{ animation: "slide-up 0.5s ease-out forwards" }}
         >
           <h1 className="text-2xl md:text-3xl font-display font-bold text-black mb-2">
-            {loading ? "Welcome back!" : `Welcome back, ${data.userName}!`} 🌸
+            Welcome back, {data.userName || "User"}! 🌸
           </h1>
           <p className="text-black/80 text-lg">
             How are you feeling today? Remember, every step forward matters.
@@ -86,17 +85,17 @@ export default function Dashboard() {
             {
               icon: Smile,
               label: "Mood Check-ins",
-              value: loading ? "..." : data.moodCheckins,
+              value: data.moodCheckins,
             },
             {
               icon: MessageCircle,
               label: "Conversations",
-              value: loading ? "..." : data.conversations,
+              value: data.conversations,
             },
             {
               icon: TrendingUp,
               label: "Wellness Score",
-              value: loading ? "..." : data.wellnessScore,
+              value: data.wellnessScore,
             },
           ].map((card, i) => (
             <div

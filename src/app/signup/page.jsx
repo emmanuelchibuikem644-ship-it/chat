@@ -33,7 +33,7 @@ export default function SignUp() {
       const res = await fetch(`${API_BASE}/api/auth/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: email, email, password }), // username = email for login
+        body: JSON.stringify({ username: email, email, password }), 
       });
 
       const data = await res.json();

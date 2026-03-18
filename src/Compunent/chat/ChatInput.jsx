@@ -1,114 +1,46 @@
 "use client";
-import ChatInput from "@/Compunent/chat/ChatInput";
-import MessageList from "@/Compunent/chat/MessageList";
-import { useEffect, useRef, useState } from "react";
 
-export default function ChatPage() {
-  const [messages, setMessages] = useState([]);
-  const [connected, setConnected] = useState(false);
+import { useState } from "react";
 
-  const socketRef = useRef(null);
-  const messagesEndRef = useRef(null);
+export default function ChatInput({ onSend, disabled }) {
+  const [text, setText] = useState("");
 
-  /* ================= SCROLL ================= */
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  /* ================= WEBSOCKET ================= */
-  useEffect(() => {
-
-    // ✅ CONNECT TO RENDER BACKEND
-    socketRef.current = new WebSocket("wss://solace-2.onrender.com/ws/chat/");
-
-    socketRef.current.onopen = () => {
-      console.log("✅ WebSocket connected");
-      setConnected(true);
-    };
-
-    socketRef.current.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-
-      console.log("📩 Message received:", msg);
-
-      // ===== CHAT HISTORY =====
-      if (msg.type === "history") {
-        const formatted = msg.messages.map((m) => ({
-          id: m._id,
-          sender: m.sender,
-          text: m.text,
-          time: new Date(m.time),
-        }));
-
-        setMessages(formatted);
-        return;
-      }
-
-      // ===== WELCOME MESSAGE =====
-      if (msg.type === "welcome") {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now(),
-            sender: msg.sender,
-            text: msg.text,
-            time: new Date(msg.time),
-          },
-        ]);
-        return;
-      }
-
-      // ===== NORMAL MESSAGE =====
-      const formatted = {
-        id: msg.id,
-        sender: msg.sender,
-        text: msg.text,
-        time: new Date(msg.time),
-      };
-
-      setMessages((prev) => {
-        if (prev.some((m) => m.id === formatted.id)) return prev;
-        return [...prev, formatted];
-      });
-    };
-
-    socketRef.current.onclose = () => {
-      console.log("❌ WebSocket disconnected");
-      setConnected(false);
-    };
-
-    socketRef.current.onerror = (err) => {
-      console.error("WebSocket error:", err);
-    };
-
-    return () => socketRef.current?.close();
-  }, []);
-
-  /* ================= SEND MESSAGE ================= */
-  const handleSend = (text) => {
-    if (!text || !connected) return;
-
-    socketRef.current.send(
-      JSON.stringify({
-        sender: "user",
-        text,
-      })
-    );
+  const handleSendClick = () => {
+    if (!text.trim()) return;
+    onSend(text);
+    setText("");
   };
 
-  /* ================= UI ================= */
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSendClick();
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 text-black">
-      
-      <header className="h-14 bg-white border-b flex items-center px-4 font-semibold">
-        Solace
-      </header>
+    <div className="p-4 bg-white flex gap-2 border-t">
+      <input
+        type="text"
+        className="flex-1 border rounded px-3 py-2"
+        placeholder={disabled ? "Thinking..." : "Type a message..."}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleEnter}
+        disabled={disabled}
+      />
 
-      <MessageList messages={messages} />
-
-      <div ref={messagesEndRef} />
-
-      <ChatInput onSend={handleSend} connected={connected} />
+      <button
+        onClick={handleSendClick}
+        className={`px-4 py-2 rounded text-white ${
+          disabled
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
+        disabled={disabled}
+      >
+        Send
+      </button>
     </div>
   );
 }
