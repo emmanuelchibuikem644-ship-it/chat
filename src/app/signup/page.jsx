@@ -15,8 +15,6 @@ export default function SignUp() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = "https://solace-2.onrender.com";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,30 +28,16 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/register/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: email, email, password }), 
-      });
+      // ✅ FAKE SUCCESS LOGIN (NO BACKEND)
+      localStorage.setItem("access", "fake-token");
+      localStorage.setItem("refresh", "fake-refresh");
+      localStorage.setItem("username", name || "User");
+      localStorage.setItem("email", email);
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setErrors({
-          form: data.email?.[0] || data.username?.[0] || "Account already exists",
-        });
-        return;
-      }
-
-      // Save tokens & user info
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
-      localStorage.setItem("username", data.user.username);
-      localStorage.setItem("email", data.user.email);
-
+      // redirect
       router.push("/dashboard");
     } catch {
-      setErrors({ form: "Network error. Try again later." });
+      setErrors({ form: "Something went wrong" });
     } finally {
       setLoading(false);
     }
@@ -75,62 +59,48 @@ export default function SignUp() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-gray-700 font-medium mb-1">Name</label>
+            <label className="block text-gray-700 font-medium mb-1">Name</label>
             <input
-              id="name"
               type="text"
               placeholder="What should we call you?"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email</label>
+            <label className="block text-gray-700 font-medium mb-1">Email</label>
             <input
-              id="email"
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">Password</label>
+            <label className="block text-gray-700 font-medium mb-1">Password</label>
             <input
-              id="password"
               type="password"
               placeholder="Create a secure password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              id="remember"
-              type="checkbox"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-              className="h-4 w-4 text-purple-600 border-gray-300 rounded"
-            />
-            <label htmlFor="remember" className="text-gray-700 text-sm cursor-pointer">Remember me</label>
-          </div>
-
-          <Button type="submit" variant="hero" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Signing Up..." : "Sign Up"}
           </Button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-6">
-          Already have an account {" "}
+          Already have an account{" "}
           <Link href="/login" className="text-purple-600 hover:underline">Log in</Link>
         </p>
       </div>

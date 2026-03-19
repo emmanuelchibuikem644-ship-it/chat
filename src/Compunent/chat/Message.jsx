@@ -10,7 +10,7 @@ export default function Message({ text, sender, time }) {
               ? "bg-blue-600 text-white"
             : "bg-white text-gray-800"
           }`}
-      >
+       >
         <p>{text}</p>
         <span className="block text-[10px] opacity-70 mt-1 text-right">
           {time}

@@ -19,7 +19,7 @@ export default function ChatInput({ onSend, disabled }) {
   };
 
   return (
-  <div className="p-4 bg-white flex gap-2 border-t">
+    <div className="p-4 bg-white flex gap-2 border-t">
       <input
         type="text"
         className="flex-1 border rounded px-3 py-2"

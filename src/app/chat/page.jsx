@@ -28,10 +28,14 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      const response = (
-        
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_WS_URL}/api/chat/`,
         {
-         
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: text }),
         }
       );
 

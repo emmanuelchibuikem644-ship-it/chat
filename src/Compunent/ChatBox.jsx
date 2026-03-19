@@ -14,7 +14,11 @@ export default function ChatBox() {
     setHistory([...history, userMsg]);
     setText("");
 
-   
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
     const { reply, intent, emotion } = await res.json();
 
@@ -26,7 +30,7 @@ export default function ChatBox() {
   }
 
   return (
-  <div className="flex flex-col space-y-3 h-[500px] overflow-auto p-4 border rounded-lg bg-white shadow-md">
+    <div className="flex flex-col space-y-3 h-[500px] overflow-auto p-4 border rounded-lg bg-white shadow-md">
       {history.map((m, i) => (
         <Message key={i} text={m.text} from={m.from} />
       ))}

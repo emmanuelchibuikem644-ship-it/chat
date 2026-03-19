@@ -11,7 +11,7 @@ export default function Home() {
         <div className="container mx-auto flex items-center justify-between h-16 px-6">
           <Link href="/" className="flex items-center gap-2">
             <Heart className="h-6 w-6 text-purple-600" />
-            <span className="font-display font-bold text-xl text-black">
+             <span className="font-display font-bold text-xl text-black">
               SOLACE
             </span>
           </Link>

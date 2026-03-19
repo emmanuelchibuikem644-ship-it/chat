@@ -170,7 +170,7 @@ export default function Dashboard() {
             </span>
           </div>
         </div>
-      </main>
+       </main>
     </div>
   );
 }

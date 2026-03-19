@@ -189,7 +189,7 @@ const Profile = () => {
             Your privacy is our top priority. All conversations are encrypted and never shared with third parties. You can delete your data at anytime.
           </p>
           <div className="flex gap-3">
-            <Button
+             <Button
               variant="default"
               size="sm"
               className="rounded-xl bg-black text-white hover:bg-gray-800"

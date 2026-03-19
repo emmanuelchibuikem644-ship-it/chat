@@ -21,7 +21,7 @@ export default function MessageList({ messages }) {
             )}
              <div className="text-[10px] text-gray-400 mt-1 text-right">
               {msg.time ? new Date(msg.time).toLocaleTimeString() : ""}
-            </div>
+             </div>
           </div>
         </div>
       ))}
