@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
@@ -61,116 +60,115 @@ export default function Dashboard() {
     fetchDashboardData();
   }, []);
 
+  // ✅ convert score → text like your UI
+  const getWellnessText = (score) => {
+    if (score >= 7) return "Good";
+    if (score >= 4) return "Okay";
+    if (score > 0) return "Low";
+    return "0";
+  };
+
   return (
-    <div className="min-h-screen text-black bg-gray-100">
+    <div className="min-h-screen bg-[#F5F6FA] text-black">
       <DashboardNav />
 
-      <main className="container max-w-5xl mx-auto px-6 py-8">
+      <main className="max-w-5xl mx-auto px-6 py-10">
         {/* Welcome Banner */}
-        <div
-          className="rounded-2xl p-8 mb-8 shadow-soft bg-gradient-to-r from-[#F6E7F2] via-[#EBDFF4] to-[#F3F4F6]"
-          style={{ animation: "slide-up 0.5s ease-out forwards" }}
-        >
-          <h1 className="text-2xl md:text-3xl font-display font-bold text-black mb-2">
-            Welcome back, {data.userName || "User"}! 🌸
+        <div className="rounded-2xl p-6 mb-8 bg-gradient-to-r from-[#F3D6E4] via-[#DDE7F5] to-[#E6ECF7]">
+          <h1 className="text-xl font-semibold mb-1">
+            Welcome back! 🌸
           </h1>
-          <p className="text-black/80 text-lg">
+          <p className="text-sm text-black/60">
             How are you feeling today? Remember, every step forward matters.
           </p>
         </div>
 
-        {/* Overview Cards */}
-        <div className="grid sm:grid-cols-3 gap-6 mb-8">
-          {[
-            {
-              icon: Smile,
-              label: "Mood Check-ins",
-              value: data.moodCheckins,
-            },
-            {
-              icon: MessageCircle,
-              label: "Conversations",
-              value: data.conversations,
-            },
-            {
-              icon: TrendingUp,
-              label: "Wellness Score",
-              value: data.wellnessScore,
-            },
-          ].map((card, i) => (
-            <div
-              key={card.label}
-              className="bg-card rounded-2xl p-6 shadow-card border border-border/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-0.5"
-              style={{
-                animation: `slide-up ${0.5 + i * 0.1}s ease-out forwards`,
-              }}
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#EBDFF4] text-black flex items-center justify-center mb-4">
-                <card.icon className="h-5 w-5" />
-              </div>
-              <p className="text-sm text-black font-medium">{card.label}</p>
-              <p className="text-2xl font-display font-bold text-black mt-1">
-                {card.value}
-              </p>
+        {/* Cards */}
+        <div className="grid sm:grid-cols-3 gap-6 mb-10">
+          {/* Mood */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+              <Smile className="w-5 h-5 text-purple-500" />
             </div>
-          ))}
+            <p className="text-sm text-gray-500">Mood Check-ins</p>
+            <p className="text-xl font-semibold mt-1">
+              {data.moodCheckins}
+            </p>
+          </div>
+
+          {/* Conversations */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+              <MessageCircle className="w-5 h-5 text-pink-500" />
+            </div>
+            <p className="text-sm text-gray-500">Conversations</p>
+            <p className="text-xl font-semibold mt-1">
+              {data.conversations}
+            </p>
+          </div>
+
+          {/* Wellness */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+              <TrendingUp className="w-5 h-5 text-blue-500" />
+            </div>
+            <p className="text-sm text-gray-500">Wellness Score</p>
+            <p className="text-xl font-semibold mt-1">
+              {getWellnessText(data.wellnessScore)}
+            </p>
+          </div>
         </div>
 
         {/* Quick Actions */}
-        <h2 className="text-xl font-display font-bold text-black mb-4">
-          Quick Actions
-        </h2>
+        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
 
         <div className="grid sm:grid-cols-3 gap-6">
-          {[
-            {
-              icon: MessageCircle,
-              title: "Start a Chat",
-              desc: "Talk to your AI companion about anything",
-              href: "/chat",
-            },
-            {
-              icon: UserCircle,
-              title: "View Profile",
-              desc: "Check your settings and preferences",
-              href: "/profile",
-            },
-            {
-              icon: Calendar,
-              title: "Mood History",
-              desc: "See how you've been feeling over time",
-              href: "/dashboard",
-            },
-          ].map((action, i) => (
-            <Link
-              key={action.title}
-              href={action.href}
-              className="group bg-card rounded-2xl p-6 shadow-card border border-border/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
-              style={{
-                animation: `slide-up ${0.7 + i * 0.1}s ease-out forwards`,
-              }}
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#EBDFF4] text-black flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <action.icon className="h-5 w-5" />
-              </div>
-              <h3 className="font-display font-bold text-black mb-1">
-                {action.title}
-              </h3>
-              <p className="text-sm text-black/70">{action.desc}</p>
-            </Link>
-          ))}
+          <Link
+            href="/chat"
+            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+          >
+            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+              <MessageCircle className="w-5 h-5 text-purple-500" />
+            </div>
+            <h3 className="font-medium mb-1">Start a Chat</h3>
+            <p className="text-sm text-gray-500">
+              Talk to your AI companion about anything
+            </p>
+          </Link>
+
+          <Link
+            href="/profile"
+            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+          >
+            <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+              <UserCircle className="w-5 h-5 text-pink-500" />
+            </div>
+            <h3 className="font-medium mb-1">View Profile</h3>
+            <p className="text-sm text-gray-500">
+              Check your settings and preferences
+            </p>
+          </Link>
+
+          <Link
+            href="/dashboard"
+            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+          >
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+              <Calendar className="w-5 h-5 text-blue-500" />
+            </div>
+            <h3 className="font-medium mb-1">Mood History</h3>
+            <p className="text-sm text-gray-500">
+              See how you've been feeling over time
+            </p>
+          </Link>
         </div>
 
-        {/* Encouraging Message */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 text-black/70">
-            <Sparkles className="h-4 w-4 text-black" />
-            <span className="text-sm italic">
-              "You're doing great. One step at a time."
-            </span>
-          </div>
+        {/* Footer Message */}
+        <div className="mt-12 text-center text-gray-500 text-sm italic flex items-center justify-center gap-2">
+          <Sparkles className="w-4 h-4" />
+          You're doing great. One day at a time.
         </div>
-       </main>
+      </main>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import DashboardNav from "@/Compunent/DashboardNav";
 import { Button } from "@/Compunent/ui/button"; 
-import { UserCircle, Mail, Bell, Shield, Palette } from "lucide-react";
+import { UserCircle, Mail, Bell, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Profile = () => {
@@ -16,18 +16,18 @@ const Profile = () => {
     calmingAnimations: true,
   });
 
-  // ✅ Load user from localStorage
+  // ✅ LOAD USER FROM LOCALSTORAGE
   useEffect(() => {
     const token = localStorage.getItem("access");
 
-    // 🔐 Protect page (optional but recommended)
+    // protect page
     if (!token) {
       router.push("/login");
       return;
     }
 
     const storedName = localStorage.getItem("username");
-    const storedEmail = localStorage.getItem("email"); // ✅ FIXED
+    const storedEmail = localStorage.getItem("email");
 
     if (storedName) setDisplayName(storedName);
     else setDisplayName("User");
@@ -40,11 +40,11 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    alert(`Saved! Display Name: ${displayName}`);
-
-    // ✅ Save updates
+    // ✅ SAVE TO LOCALSTORAGE
     localStorage.setItem("username", displayName);
-    localStorage.setItem("email", email); // ✅ FIXED
+    localStorage.setItem("email", email);
+
+    alert("Changes saved!");
   };
 
   const handleDownload = () => {
@@ -62,114 +62,140 @@ const Profile = () => {
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete your account?")) {
-      setDisplayName("");
-      setEmail("");
-      setPrefs({
-        dailyReminders: false,
-        privacyMode: false,
-        calmingAnimations: false,
-      });
-
       localStorage.removeItem("username");
       localStorage.removeItem("email");
       localStorage.removeItem("access");
 
-      alert("Account deleted.");
-      router.push("/login"); // redirect after delete
+      router.push("/login");
     }
   };
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-gray-50 text-black">
       <DashboardNav />
 
-      <main className="container max-w-2xl mx-auto px-6 py-8 space-y-8">
-        <h1 className="text-2xl font-bold">
-          Your Profile
-        </h1>
+      <main className="max-w-2xl mx-auto px-6 py-10 space-y-8">
+        {/* Title */}
+        <h1 className="text-xl font-semibold">Your Profile</h1>
 
-        {/* User Info */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-8">
-          <div className="flex items-center gap-5 mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center">
-              <UserCircle className="h-8 w-8 text-gray-700" />
+        {/* PROFILE CARD */}
+        <div className="bg-white rounded-2xl shadow-sm border p-6">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+              <UserCircle className="text-purple-500 w-6 h-6" />
             </div>
+
             <div>
-              <h2 className="font-bold text-lg">{displayName || "User"}</h2>
-              <p className="text-sm text-gray-600">{email || "No Email"}</p>
+              <h2 className="font-semibold text-sm">
+                {displayName || "User"}
+              </h2>
+              <p className="text-xs text-gray-500">
+                Member since February 2026
+              </p>
             </div>
           </div>
 
-          <div className="space-y-5">
+          {/* INPUTS */}
+          <div className="space-y-4">
             <div>
-              <label className="block font-medium mb-1">Display Name</label>
+              <label className="text-xs text-gray-600">
+                Display Name
+              </label>
               <input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-xl bg-gray-100"
+                className="w-full mt-1 px-4 py-2 rounded-full border bg-gray-50 text-sm"
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <label className="text-xs text-gray-600">Email</label>
+              <div className="relative mt-1">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 px-4 py-2 border rounded-xl bg-gray-100"
+                  className="w-full pl-10 px-4 py-2 rounded-full border bg-gray-50 text-sm"
                 />
               </div>
             </div>
 
-            <Button onClick={handleSave}>
+            <Button
+              onClick={handleSave}
+              className="bg-purple-200 text-purple-700 hover:bg-purple-300 rounded-full text-sm px-4"
+            >
               Save Changes
             </Button>
           </div>
         </div>
 
-        {/* Preferences */}
-        <div className="bg-white rounded-2xl shadow-lg border p-8">
-          <h2 className="font-bold text-lg mb-6 flex items-center gap-2">
-            <Palette className="h-5 w-5" />
-            Preferences
-          </h2>
+        {/* PREFERENCES */}
+        <div className="bg-white rounded-2xl shadow-sm border p-6">
+          <h2 className="text-sm font-semibold mb-4">Preferences</h2>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {[
-              { key: "dailyReminders", icon: Bell, label: "Daily reminders" },
-              { key: "privacyMode", icon: Shield, label: "Privacy mode" },
-              { key: "calmingAnimations", icon: Palette, label: "Animations" },
+              {
+                key: "dailyReminders",
+                label: "Daily wellness reminders",
+                desc: "Get gentle nudges to check in with yourself",
+                icon: Bell,
+              },
+              {
+                key: "privacyMode",
+                label: "Enhanced privacy mode",
+                desc: "Extra layers of data protection",
+                icon: Shield,
+              },
+              {
+                key: "calmingAnimations",
+                label: "Calming animations",
+                desc: "Enable soothing micro-animations",
+                icon: Bell,
+              },
             ].map((pref) => (
-              <div key={pref.key} className="flex justify-between">
-                <div className="flex gap-3">
-                  <pref.icon className="h-4 w-4" />
-                  <p>{pref.label}</p>
+              <div key={pref.key} className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm font-medium">{pref.label}</p>
+                  <p className="text-xs text-gray-500">{pref.desc}</p>
                 </div>
+
                 <input
                   type="checkbox"
                   checked={prefs[pref.key]}
                   onChange={() => togglePref(pref.key)}
+                  className="toggle"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Privacy */}
-        <div className="bg-white rounded-2xl shadow-lg border p-8">
-          <h2 className="font-bold text-lg mb-4 flex items-center gap-2">
-            <Shield className="h-5 w-5" />
+        {/* PRIVACY */}
+        <div className="bg-white rounded-2xl shadow-sm border p-6">
+          <h2 className="text-sm font-semibold mb-2">
             Privacy & Safety
           </h2>
 
+          <p className="text-xs text-gray-500 mb-4">
+            Your privacy is our top priority. All conversations are encrypted
+            and never shared with third parties.
+          </p>
+
           <div className="flex gap-3">
-            <Button onClick={handleDownload}>
+            <Button
+              onClick={handleDownload}
+              className="rounded-full text-xs"
+            >
               Download My Data
             </Button>
-            <Button onClick={handleDelete}>
+
+            <Button
+              onClick={handleDelete}
+              className="rounded-full text-xs border border-red-400 text-red-500 bg-white hover:bg-red-50"
+            >
               Delete Account
             </Button>
           </div>

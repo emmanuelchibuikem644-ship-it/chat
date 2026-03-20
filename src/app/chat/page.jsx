@@ -2,6 +2,7 @@
 
 import ChatInput from "@/Compunent/chat/ChatInput";
 import MessageList from "@/Compunent/chat/MessageList";
+import DashboardNav from "@/Compunent/DashboardNav";
 import { useEffect, useRef, useState } from "react";
 
 export default function ChatPage() {
@@ -28,14 +29,14 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_WS_URL}/api/chat/`,
+      (
+        
         {
-          method: "POST",
+          
           headers: {
-            "Content-Type": "application/json",
+          
           },
-          body: JSON.stringify({ message: text }),
+          
         }
       );
 
@@ -70,9 +71,7 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-black">
-      <header className="h-14 bg-white border-b flex items-center px-4 font-semibold">
-        Solace AI Chat
-      </header>
+      <DashboardNav />
 
       <MessageList messages={messages} />
 
