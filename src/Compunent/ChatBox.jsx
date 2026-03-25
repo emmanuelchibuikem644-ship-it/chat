@@ -1,4 +1,4 @@
-  "use client";
+"use client";
 import { useState } from "react";
 import Message from "./Message";
 
@@ -6,23 +6,50 @@ export default function ChatBox() {
   const [text, setText] = useState("");
   const [history, setHistory] = useState([]);
 
+  const API_BASE = process.env.NEXT_PUBLIC_WS_URL;
+
   async function handleSend(e) {
     e.preventDefault();
     if (!text.trim()) return;
 
+    const token = localStorage.getItem("access");
+
     const userMsg = { text, from: "user" };
-    setHistory([...history, userMsg]);
+    setHistory((prev) => [...prev, userMsg]);
     setText("");
 
-   
+    try {
+      const res = await fetch(`${API_BASE}/api/chat/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ AUTH
+        },
+        body: JSON.stringify({
+          message: text,
+        }),
+      });
 
-    const { reply, intent, emotion } = await res.json();
+      if (!res.ok) throw new Error("Failed request");
 
-    setHistory([
-      ...history,
-      userMsg,
-      { text: `(${emotion}, ${intent}) — ${reply}`, from: "bot" },
-    ]);
+      const data = await res.json();
+
+      const botMsg = {
+        text: `(${data.emotion || "neutral"}${
+          data.intent ? ", " + data.intent : ""
+        }) — ${data.reply}`,
+        from: "bot",
+      };
+
+      setHistory((prev) => [...prev, botMsg]);
+    } catch (err) {
+      console.error(err);
+
+      setHistory((prev) => [
+        ...prev,
+        { text: "Error talking to AI.", from: "bot" },
+      ]);
+    }
   }
 
   return (
@@ -38,7 +65,9 @@ export default function ChatBox() {
           onChange={(e) => setText(e.target.value)}
           placeholder="Type how you feel..."
         />
-        <button className="bg-blue-500 text-white px-4 rounded-r">Send</button>
+        <button className="bg-blue-500 text-white px-4 rounded-r">
+          Send
+        </button>
       </form>
     </div>
   );

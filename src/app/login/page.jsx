@@ -13,7 +13,9 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already "logged in"
+  // ✅ YOUR AUTH BACKEND
+  const API_BASE = "https://solar-auth-1.onrender.com";
+
   useEffect(() => {
     const token = localStorage.getItem("access");
     if (token) {
@@ -33,15 +35,35 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // ✅ FAKE LOGIN (NO BACKEND)
-      localStorage.setItem("access", "fake-token");
-      localStorage.setItem("refresh", "fake-refresh");
-      localStorage.setItem("username", "User");
-      localStorage.setItem("email", email);
+      const res = await fetch(`${API_BASE}/api/auth/login/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrors({
+          form: data.detail || "Invalid email or password",
+        });
+        return;
+      }
+
+      // ✅ SAVE TOKENS
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      localStorage.setItem("username", data.user.username);
+      localStorage.setItem("email", data.user.email);
 
       router.push("/dashboard");
-    } catch {
-      setErrors({ form: "Something went wrong" });
+    } catch (error) {
+      setErrors({ form: "Network error. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -53,18 +75,20 @@ export default function Login() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <Heart className="h-7 w-7 text-black" />
-            <span className="font-bold text-2xl text-black">Solace</span>
+            <span className="font-bold text-2xl">Solace</span>
           </Link>
-          <h1 className="text-2xl font-bold text-black">Welcome back</h1>
-          <p className="mt-1 text-black">We're glad you're here 💜</p>
+          <h1 className="text-2xl font-bold">Welcome back</h1>
+          <p>We're glad you're here 💜</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-8">
-          {errors.form && <p className="text-red-500 mb-4">{errors.form}</p>}
+        <div className="bg-white rounded-2xl shadow-lg border p-8">
+          {errors.form && (
+            <p className="text-red-500 mb-4">{errors.form}</p>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-sm font-medium">Email</label>
+              <label>Email</label>
               <input
                 type="email"
                 value={email}
@@ -74,7 +98,7 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Password</label>
+              <label>Password</label>
               <input
                 type="password"
                 value={password}
@@ -93,11 +117,9 @@ export default function Login() {
           </form>
         </div>
 
-        <p className="text-center text-sm mt-6">
-          Don't have an account?{" "}
-          <Link href="/signup" className="font-semibold hover:underline">
-            Sign up free
-          </Link>
+        <p className="text-center mt-6">
+          Don't have an account{" "}
+          <Link href="/signup">Sign up</Link>
         </p>
       </div>
     </div>

@@ -39,7 +39,7 @@ export default function ChatInput({ onSend, disabled }) {
         }`}
         disabled={disabled}
       >
-        Send
+        send
       </button>
     </div>
   );
