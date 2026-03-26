@@ -12,7 +12,7 @@ export default function Message({ text, sender, time }) {
           }`}
        >
         <p>{text}</p>
-        <span className="block text-[10px] opacity-70 mt-1 text-right">
+         <span className="block text-[10px] opacity-70 mt-1 text-right">
           {time}
         </span>
       </div>

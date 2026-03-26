@@ -8,7 +8,7 @@
           : "bg-green-200 self-start text-left"
       }`}
     >
-      {text}
+       {text}
      </div>
   );
 }

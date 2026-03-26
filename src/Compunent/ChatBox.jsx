@@ -46,7 +46,7 @@ export default function ChatBox() {
       console.error(err);
 
       setHistory((prev) => [
-        ...prev,
+         ...prev,
         { text: "Error talking to AI.", from: "bot" },
       ]);
     }

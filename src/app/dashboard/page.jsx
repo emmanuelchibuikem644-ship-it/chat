@@ -136,7 +136,7 @@ export default function Dashboard() {
             </p>
           </Link>
 
-          <Link
+           <Link
             href="/profile"
             className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
           >

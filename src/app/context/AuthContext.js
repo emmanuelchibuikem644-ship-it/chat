@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+ export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

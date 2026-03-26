@@ -14,7 +14,7 @@ export default function MessageList({ messages }) {
             }`}
           >
             {msg.text}
-            {msg.emotion && (
+             {msg.emotion && (
               <div className="text-xs text-gray-500 mt-1">
                 Emotion: {msg.emotion}
               </div>

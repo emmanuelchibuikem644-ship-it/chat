@@ -10,7 +10,7 @@ const Profile = () => {
 
   const [displayName, setDisplayName] = useState("Alex Johnson");
   const [email, setEmail] = useState("alex@example.com");
-  const [prefs, setPrefs] = useState({
+   const [prefs, setPrefs] = useState({
     dailyReminders: true,
     privacyMode: true,
     calmingAnimations: true,

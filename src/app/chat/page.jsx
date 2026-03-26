@@ -66,7 +66,7 @@ export default function ChatPage() {
         sender: "bot",
         text: "Sorry, can't answer you at the moment.",
         time: new Date(),
-      };
+       };
 
       setMessages((prev) => [...prev, errorMessage]);
     } finally {

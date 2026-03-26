@@ -160,7 +160,7 @@ export default function Home() {
         <Button className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
           <Link href="/signup">Get Started Free</Link>
         </Button>
-      </div>
+       </div>
 
       {/* Footer */}
       <footer className="border-t border-black/10 py-12 px-6 bg-white">

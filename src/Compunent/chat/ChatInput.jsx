@@ -11,7 +11,7 @@ export default function ChatInput({ onSend, disabled }) {
     setText("");
   };
 
-  const handleEnter = (e) => {
+   const handleEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSendClick();
