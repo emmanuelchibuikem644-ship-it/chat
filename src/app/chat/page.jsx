@@ -1,7 +1,7 @@
 "use client";
+
 import ChatInput from "@/Compunent/chat/ChatInput";
 import MessageList from "@/Compunent/chat/MessageList";
-import ChatBox from "@/Compunent/ChatBox";
 import DashboardNav from "@/Compunent/DashboardNav";
 import { useEffect, useRef, useState } from "react";
 
@@ -37,7 +37,7 @@ export default function ChatPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           message: text,
@@ -60,13 +60,13 @@ export default function ChatPage() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
- 
+
       const errorMessage = {
         id: Date.now() + 2,
         sender: "bot",
         text: "Sorry, can't answer you at the moment.",
         time: new Date(),
-       };
+      };
 
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -77,7 +77,7 @@ export default function ChatPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-black">
       <DashboardNav />
-      <ChatBox/>
+
       <MessageList messages={messages} />
 
       <div ref={messagesEndRef} />
