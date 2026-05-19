@@ -1,186 +1,197 @@
 "use client";
 import Link from "next/link";
-import { Heart, Shield, MessageCircle, Sparkles, Lock, Users } from "lucide-react";
-import { Button } from "../Compunent/ui/button";
+import { Heart, Shield, MessageCircle, Sparkles, Lock, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-black">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-black/10">
-        <div className="container mx-auto flex items-center justify-between h-16 px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Heart className="h-6 w-6 text-purple-600" />
-             <span className="font-display font-bold text-xl text-black">
-              SOLACE
-            </span>
-          </Link>
+    <div style={{ fontFamily: "var(--font-body)", background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
 
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Log in</Link>
-            </Button>
-            <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
-              <Link href="/signup">Sign Up Free</Link>
-            </Button>
+      {/* ── Nav ─────────────────────────────────── */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        background: "rgba(250,248,244,0.85)", backdropFilter: "blur(12px)",
+        borderBottom: "1px solid var(--border)", height: "64px",
+        display: "flex", alignItems: "center",
+      }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "var(--text)" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "var(--sage)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Heart size={16} color="white" fill="white" />
+            </div>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: "20px", fontWeight: 400 }}>Solace</span>
+          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Link href="/login" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", textDecoration: "none", border: "1px solid var(--border)", background: "transparent" }}>
+              Log in
+            </Link>
+            <Link href="/signup" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "white", textDecoration: "none", background: "var(--sage)" }}>
+              Get started
+            </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-r from-[#F6E7F2] via-[#EBDFF4] to-[#F3F4F6] overflow-hidden">
-        <div className="container max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 bg-[#EBDFF4] text-purple-700 px-4 py-1.5 rounded-full text-sm font-semibold">
-              <Sparkles className="h-4 w-4" />
-              Your safe space for wellness
-            </div>
+      {/* ── Hero ────────────────────────────────── */}
+      <section style={{ paddingTop: "120px", paddingBottom: "80px", padding: "120px 24px 80px" }}>
+        <div style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center" }}>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
-              You deserve to feel{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-                heard & supported
-              </span>
-            </h1>
-
-            <p className="text-lg text-black/70 max-w-lg leading-relaxed">
-              A warm, judgment-free companion that listens, understands, and helps
-              you grow — at your own pace.
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
-                <Link href="/signup">Get Started Free</Link>
-              </Button>
-              <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50" asChild>
-                <Link href="/login">I have an account</Link>
-              </Button>
-            </div>
+          {/* Badge */}
+          <div className="animate-fade-up" style={{
+            display: "inline-flex", alignItems: "center", gap: "6px",
+            background: "var(--sage-pale)", color: "var(--sage-deep)",
+            padding: "6px 16px", borderRadius: "99px", fontSize: "13px", fontWeight: 500,
+            marginBottom: "32px", border: "1px solid var(--sage-light)",
+          }}>
+            <Sparkles size={13} />
+            A safe space for your mental wellness
           </div>
 
-          <div className="relative flex justify-center">
-            <div className="absolute inset-0 bg-purple-200/40 rounded-full blur-3xl" />
-            <img
-              src="/hero-illustration-ggYXG3FN.png"
-              alt="Meditation illustration"
-              className="relative w-full max-w-md rounded-2xl"
-            />
+          <h1 className="animate-fade-up delay-100" style={{
+            fontFamily: "var(--font-display)", fontSize: "clamp(42px, 6vw, 72px)",
+            fontWeight: 400, lineHeight: 1.15, marginBottom: "24px",
+            opacity: 0,
+          }}>
+            You deserve to feel<br />
+            <em style={{ color: "var(--sage-deep)" }}>heard & supported</em>
+          </h1>
+
+          <p className="animate-fade-up delay-200" style={{
+            fontSize: "18px", color: "var(--text-muted)", lineHeight: 1.7,
+            maxWidth: "520px", margin: "0 auto 40px", opacity: 0,
+          }}>
+            Solace is a warm, judgment-free AI companion that listens, understands your emotions, and walks with you through difficult moments.
+          </p>
+
+          <div className="animate-fade-up delay-300" style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", opacity: 0 }}>
+            <Link href="/signup" style={{
+              display: "inline-flex", alignItems: "center", gap: "8px",
+              padding: "14px 28px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
+              color: "white", textDecoration: "none", background: "var(--sage)",
+              boxShadow: "0 4px 16px rgba(122,158,138,0.4)",
+            }}>
+              Start your journey <ArrowRight size={16} />
+            </Link>
+            <Link href="/login" style={{
+              display: "inline-flex", alignItems: "center", gap: "8px",
+              padding: "14px 28px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
+              color: "var(--text)", textDecoration: "none",
+              background: "var(--surface)", border: "1px solid var(--border)",
+            }}>
+              I have an account
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-24 px-6 bg-white">
-        <div className="container max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Built for your comfort
-            </h2>
-            <p className="text-black/70 text-lg max-w-2xl mx-auto">
-              Every detail is designed to make you feel safe and understood.
-            </p>
+        {/* Floating chat preview */}
+        <div className="animate-fade-up delay-400" style={{
+          maxWidth: "520px", margin: "60px auto 0",
+          background: "var(--surface)", borderRadius: "var(--radius-lg)",
+          border: "1px solid var(--border)", boxShadow: "var(--shadow-lg)",
+          overflow: "hidden", opacity: 0,
+        }}>
+          {/* Chat header */}
+          <div style={{ padding: "14px 20px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--sage-pale)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Heart size={16} color="var(--sage-deep)" fill="var(--sage-light)" />
+            </div>
+            <div>
+              <div style={{ fontSize: "13px", fontWeight: 600 }}>Solace</div>
+              <div style={{ fontSize: "11px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "4px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#6bc78a", display: "inline-block" }} />
+                Always here for you
+              </div>
+            </div>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Sample messages */}
+          <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
             {[
-              {
-                icon: Shield,
-                title: "Safe & Private",
-                desc: "Your conversations are private and protected.",
-              },
-              {
-                icon: MessageCircle,
-                title: "AI Wellness Companion",
-                desc: "Talk freely with empathy and care.",
-              },
-              {
-                icon: Users,
-                title: "Built for Shy Users",
-                desc: "No pressure. Move at your own pace.",
-              },
-            ].map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-2xl p-8 border border-black/10 shadow-sm hover:shadow-md transition bg-gradient-to-b from-white to-[#FAF7FD]"
-              >
-                <div className="w-12 h-12 rounded-xl bg-[#EBDFF4] text-purple-700 flex items-center justify-center mb-5">
-                  <feature.icon className="h-6 w-6" />
+              { from: "bot", text: "Hi there 💙 How are you feeling today?" },
+              { from: "user", text: "I've been feeling really anxious lately and can't sleep well." },
+              { from: "bot", text: "I'm really sorry to hear that. Anxiety can feel so exhausting, especially when it affects your sleep. Would you like to talk about what's been on your mind?" },
+            ].map((m, i) => (
+              <div key={i} style={{ display: "flex", justifyContent: m.from === "user" ? "flex-end" : "flex-start" }}>
+                <div style={{
+                  maxWidth: "78%", padding: "10px 14px", borderRadius: m.from === "user" ? "18px 4px 18px 18px" : "4px 18px 18px 18px",
+                  background: m.from === "user" ? "var(--sage)" : "var(--sage-pale)",
+                  color: m.from === "user" ? "white" : "var(--text)",
+                  fontSize: "13px", lineHeight: 1.5,
+                }}>
+                  {m.text}
                 </div>
-                <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
-                <p className="text-black/70">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Support Section */}
-      <section className="py-24 px-6 bg-gradient-to-r from-[#F3F4F6] to-[#EBDFF4]">
-        <div className="container max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <img
-            src="/support-illustration-ZltcFJkx.png"
-            alt="Support conversation"
-            className="w-full max-w-sm mx-auto rounded-2xl shadow-md"
-          />
+      {/* ── Features ────────────────────────────── */}
+      <section style={{ padding: "80px 24px", background: "var(--surface)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "56px" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(30px,4vw,46px)", fontWeight: 400, marginBottom: "12px" }}>Built for your comfort</h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Every detail is designed to make you feel safe and understood.</p>
+          </div>
 
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Talk freely, without fear
-            </h2>
-            <p className="text-black/70 text-lg">
-              Express yourself safely in a warm, supportive space.
-            </p>
-
-            <div className="space-y-4">
-              {[
-                { icon: Lock, text: "End-to-end privacy protection" },
-                { icon: Heart, text: "Empathetic responses" },
-                { icon: Sparkles, text: "Personalized wellness insights" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#EBDFF4] text-purple-700 flex items-center justify-center">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <span className="font-medium">{item.text}</span>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
+            {[
+              { icon: Shield, title: "Safe & Private", desc: "Your conversations are private and protected. Nothing is ever shared." },
+              { icon: MessageCircle, title: "Emotion-Aware AI", desc: "Solace detects how you're feeling and tailors every response with care." },
+              { icon: Sparkles, title: "Personalized Support", desc: "Adapts to your mood, preferences, and the time of day you reach out." },
+              { icon: Lock, title: "No Judgment, Ever", desc: "A space where you can be completely honest without fear of criticism." },
+            ].map((f) => (
+              <div key={f.title} style={{
+                padding: "28px", borderRadius: "var(--radius-lg)",
+                border: "1px solid var(--border)", background: "var(--bg)",
+                transition: "box-shadow 0.2s, transform 0.2s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = "var(--shadow-md)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
+              >
+                <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: "var(--sage-pale)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <f.icon size={20} color="var(--sage-deep)" />
                 </div>
-              ))}
-            </div>
-
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
-              <Link href="/signup">Start Your Jourery</Link>
-            </Button>
+                <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "8px" }}>{f.title}</h3>
+                <p style={{ fontSize: "14px", color: "var(--text-muted)", lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-      <div className="container max-w-5xl mx-auto px-6 py-8 text-center text-black">
-        <h2 className="text-2xl font-bold mb-4">Ready to feel heard?</h2>
-        <p className="text-lg text-black/70 mb-6">
-          Join Solace today and start your journey to wellness.
-        </p>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white" asChild>
-          <Link href="/signup">Get Started Free</Link>
-        </Button>
-       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-black/10 py-12 px-6 bg-white">
-        <div className="container max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-purple-600" />
-            <span className="font-bold">Solace</span>
-          </div>
-
-          <p className="text-sm text-black/60">
-            © 2026 Solace. Your safe space for wellness.
+      {/* ── CTA ─────────────────────────────────── */}
+      <section style={{ padding: "80px 24px", textAlign: "center" }}>
+        <div style={{ maxWidth: "560px", margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 400, marginBottom: "16px" }}>
+            Ready to feel heard?
+          </h2>
+          <p style={{ color: "var(--text-muted)", fontSize: "16px", marginBottom: "32px" }}>
+            Join Solace today and take the first step on your wellness journey.
           </p>
+          <Link href="/signup" style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "14px 32px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
+            color: "white", textDecoration: "none", background: "var(--sage)",
+            boxShadow: "0 4px 16px rgba(122,158,138,0.4)",
+          }}>
+            Get started free <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
 
-          <div className="flex gap-6 text-sm text-black/60">
-            <span className="hover:text-purple-600 cursor-pointer">Privacy</span>
-            <span className="hover:text-purple-600 cursor-pointer">Terms</span>
-            <span className="hover:text-purple-600 cursor-pointer">Support</span>
+      {/* ── Footer ──────────────────────────────── */}
+      <footer style={{ borderTop: "1px solid var(--border)", padding: "32px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "14px" }}>
+            <Heart size={14} color="var(--sage)" fill="var(--sage)" />
+            <span style={{ fontFamily: "var(--font-display)" }}>Solace</span>
+            <span>· © 2026</span>
           </div>
+          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+            This is a supportive tool, not a substitute for professional mental health care.
+          </p>
         </div>
       </footer>
     </div>
   );
 }
+

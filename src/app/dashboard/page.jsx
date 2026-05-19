@@ -1,171 +1,93 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  MessageCircle,
-  UserCircle,
-  Smile,
-  TrendingUp,
-  Calendar,
-  Sparkles,
-} from "lucide-react";
+import { MessageCircle, UserCircle, Smile, TrendingUp, Sparkles, ArrowRight } from "lucide-react";
 import DashboardNav from "@/Compunent/DashboardNav";
 
 export default function Dashboard() {
-  const [data, setData] = useState({
-    moodCheckins: 0,
-    conversations: 0,
-    wellnessScore: 0,
-    userName: "",
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [userName, setUserName] = useState("there");
+  const [conversations, setConversations] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("access");
-    if (!token) {
-      window.location.href = "/login";
-      return;
-    }
-
-    const fetchDashboardData = async () => {
-      try {
-        const API_BASE = "https://solace-2.onrender.com";
-
-        const res = await fetch(`${API_BASE}/api/dashboard/`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch dashboard data");
-
-        const json = await res.json();
-
-        const username =
-          json.name || localStorage.getItem("username") || "User";
-
-        setData({
-          moodCheckins: json.moodCheckins ?? 0,
-          conversations: json.conversations ?? 0,
-          wellnessScore: json.wellnessScore ?? 0,
-          userName: username,
-        });
-      } catch (err) {
-        setError("Unable to load dashboard. Try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
+    if (!localStorage.getItem("access")) { window.location.href = "/login"; return; }
+    const stored = localStorage.getItem("username");
+    if (stored) setUserName(stored.split("@")[0]);
+    // Track local conversation count
+    const count = parseInt(localStorage.getItem("conv_count") || "0");
+    setConversations(count);
   }, []);
 
-  // ✅ convert score → text like your UI
-  const getWellnessText = (score) => {
-    if (score >= 7) return "Good";
-    if (score >= 4) return "Okay";
-    if (score > 0) return "Low";
-    return "0";
-  };
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="min-h-screen bg-[#F5F6FA] text-black">
+    <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "var(--font-body)" }}>
       <DashboardNav />
 
-      <main className="max-w-5xl mx-auto px-6 py-10">
-        {/* Welcome Banner */}
-        <div className="rounded-2xl p-6 mb-8 bg-gradient-to-r from-[#F3D6E4] via-[#DDE7F5] to-[#E6ECF7]">
-          <h1 className="text-xl font-semibold mb-1">
-            Welcome back! 🌸
+      <main style={{ maxWidth: "920px", margin: "0 auto", padding: "40px 24px" }}>
+
+        {/* Welcome banner */}
+        <div style={{
+          borderRadius: "var(--radius-lg)", padding: "28px 32px", marginBottom: "36px",
+          background: "linear-gradient(135deg, var(--sage-pale) 0%, var(--blush-pale) 100%)",
+          border: "1px solid var(--sage-light)",
+        }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "24px", fontWeight: 400, marginBottom: "6px" }}>
+            {greeting}, {userName} 🌸
           </h1>
-          <p className="text-sm text-black/60">
-            How are you feeling today? Remember, every step forward matters.
+          <p style={{ fontSize: "14px", color: "var(--text-muted)", lineHeight: 1.6 }}>
+            How are you feeling today? Remember, every step forward matters — no matter how small.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid sm:grid-cols-3 gap-6 mb-10">
-          {/* Mood */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-4">
-              <Smile className="w-5 h-5 text-purple-500" />
+        {/* Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px,1fr))", gap: "16px", marginBottom: "36px" }}>
+          {[
+            { icon: MessageCircle, color: "var(--sage-pale)",  iconColor: "var(--sage-deep)",  label: "Conversations",  value: conversations },
+            { icon: Smile,         color: "var(--blush-pale)", iconColor: "#c2596d",            label: "Mood check-ins",  value: "—" },
+            { icon: TrendingUp,    color: "#e8f0fa",           iconColor: "#3b6db3",            label: "Wellness score",  value: "—" },
+          ].map((s) => (
+            <div key={s.label} style={{ background: "var(--surface)", borderRadius: "var(--radius-md)", padding: "22px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)" }}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: s.color, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "14px" }}>
+                <s.icon size={18} color={s.iconColor} />
+              </div>
+              <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "4px" }}>{s.label}</p>
+              <p style={{ fontSize: "22px", fontWeight: 600 }}>{s.value}</p>
             </div>
-            <p className="text-sm text-gray-500">Mood Check-ins</p>
-            <p className="text-xl font-semibold mt-1">
-              {data.moodCheckins}
-            </p>
-          </div>
-
-          {/* Conversations */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-4">
-              <MessageCircle className="w-5 h-5 text-pink-500" />
-            </div>
-            <p className="text-sm text-gray-500">Conversations</p>
-            <p className="text-xl font-semibold mt-1">
-              {data.conversations}
-            </p>
-          </div>
-
-          {/* Wellness */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-              <TrendingUp className="w-5 h-5 text-blue-500" />
-            </div>
-            <p className="text-sm text-gray-500">Wellness Score</p>
-            <p className="text-xl font-semibold mt-1">
-              {getWellnessText(data.wellnessScore)}
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* Quick Actions */}
-        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-
-        <div className="grid sm:grid-cols-3 gap-6">
-          <Link
-            href="/chat"
-            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
-          >
-            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-4">
-              <MessageCircle className="w-5 h-5 text-purple-500" />
-            </div>
-            <h3 className="font-medium mb-1">Start a Chat</h3>
-            <p className="text-sm text-gray-500">
-              Talk to your AI companion about anything
-            </p>
-          </Link>
-
-           <Link
-            href="/profile"
-            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
-          >
-            <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-4">
-              <UserCircle className="w-5 h-5 text-pink-500" />
-            </div>
-            <h3 className="font-medium mb-1">View Profile</h3>
-            <p className="text-sm text-gray-500">
-              Check your settings and preferences
-            </p>
-          </Link>
-
-          <Link
-            href="/dashboard"
-            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
-          >
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-              <Calendar className="w-5 h-5 text-blue-500" />
-            </div>
-            <h3 className="font-medium mb-1">Mood History</h3>
-            <p className="text-sm text-gray-500">
-              See how you've been feeling over time
-            </p>
-          </Link>
+        {/* Quick actions */}
+        <h2 style={{ fontSize: "15px", fontWeight: 600, marginBottom: "16px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Quick actions
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: "16px" }}>
+          {[
+            { href: "/chat",    icon: MessageCircle, color: "var(--sage-pale)",  iconColor: "var(--sage-deep)", title: "Start a chat",   desc: "Talk to your AI companion about anything on your mind" },
+            { href: "/profile", icon: UserCircle,    color: "var(--blush-pale)", iconColor: "#c2596d",           title: "View profile",   desc: "Check your settings and personal preferences"          },
+          ].map((a) => (
+            <Link key={a.href} href={a.href} style={{
+              display: "block", background: "var(--surface)", borderRadius: "var(--radius-md)",
+              padding: "24px", border: "1px solid var(--border)", textDecoration: "none", color: "var(--text)",
+              transition: "box-shadow 0.2s, transform 0.2s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow = "var(--shadow-md)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow = "var(--shadow-sm)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: a.color, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "14px" }}>
+                <a.icon size={18} color={a.iconColor} />
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                <h3 style={{ fontSize: "15px", fontWeight: 600 }}>{a.title}</h3>
+                <ArrowRight size={14} color="var(--stone-light)" />
+              </div>
+              <p style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: 1.5 }}>{a.desc}</p>
+            </Link>
+          ))}
         </div>
 
-        {/* Footer Message */}
-        <div className="mt-12 text-center text-gray-500 text-sm italic flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4" />
+        <div style={{ marginTop: "48px", textAlign: "center", fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+          <Sparkles size={13} color="var(--sage)" />
           You're doing great. One day at a time.
         </div>
       </main>

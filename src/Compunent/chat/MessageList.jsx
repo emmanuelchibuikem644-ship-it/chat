@@ -1,30 +1,20 @@
 "use client";
+import Message from "./Message";
 
-export default function MessageList({ messages }) {
+export default function MessageList({ messages, bottomRef }) {
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2">
-      {messages.map((msg) => (
-        <div
-          key={msg.id || Math.random()}
-          className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-        >
-          <div
-            className={`px-4 py-2 rounded max-w-xs break-words ${
-              msg.sender === "user" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            {msg.text}
-             {msg.emotion && (
-              <div className="text-xs text-gray-500 mt-1">
-                Emotion: {msg.emotion}
-              </div>
-            )}
-             <div className="text-[10px] text-gray-400 mt-1 text-right">
-              {msg.time ? new Date(msg.time).toLocaleTimeString() : ""}
-             </div>
-          </div>
+    <div style={{ flex: 1, overflowY: "auto", padding: "20px 16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+      {messages.length === 0 && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: "14px", gap: "10px", paddingBottom: "60px" }}>
+          <div style={{ fontSize: "32px" }}>💙</div>
+          <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", color: "var(--text)" }}>This is your safe space</p>
+          <p style={{ fontSize: "13px", maxWidth: "280px", textAlign: "center", lineHeight: 1.6 }}>Feel free to share whatever's on your mind. I'm here to listen.</p>
         </div>
+      )}
+      {messages.map((msg) => (
+        <Message key={msg.id} msg={msg} />
       ))}
+      <div ref={bottomRef} />
     </div>
   );
 }

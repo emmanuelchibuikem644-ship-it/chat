@@ -1,34 +1,41 @@
- "use client";
- import { createContext, useContext, useState, useEffect } from "react";
+"use client";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
- export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const logged = localStorage.getItem("loggedIn");
-    setIsLoggedIn(logged === "true");
+    const token    = localStorage.getItem("access");
+    const username = localStorage.getItem("username");
+    const email    = localStorage.getItem("email");
+    if (token) setUser({ token, username, email });
+    setLoading(false);
   }, []);
 
-  const login = () => {
-    localStorage.setItem("loggedIn", "true");
-    setIsLoggedIn(true);
+  const login = (data) => {
+    localStorage.setItem("access",   data.access);
+    localStorage.setItem("refresh",  data.refresh);
+    localStorage.setItem("username", data.user.username);
+    localStorage.setItem("email",    data.user.email);
+    setUser({ token: data.access, username: data.user.username, email: data.user.email });
     router.push("/dashboard");
   };
 
   const logout = () => {
-    localStorage.removeItem("loggedIn");
-    setIsLoggedIn(false);
+    ["access", "refresh", "username", "email"].forEach((k) => localStorage.removeItem(k));
+    setUser(null);
     router.push("/");
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
-  </AuthContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

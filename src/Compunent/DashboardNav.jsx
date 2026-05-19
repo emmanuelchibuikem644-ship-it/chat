@@ -1,55 +1,68 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Heart, LayoutDashboard, MessageCircle, UserCircle, LogOut } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Chat", href: "/chat", icon: MessageCircle },
-  { label: "Profile", href: "/profile", icon: UserCircle },
+  { label: "Chat",      href: "/chat",      icon: MessageCircle  },
+  { label: "Profile",   href: "/profile",   icon: UserCircle     },
 ];
 
 export default function DashboardNav() {
   const pathname = usePathname();
+  const router   = useRouter();
+
+  const handleLogout = () => {
+    ["access","refresh","username","email"].forEach(k => localStorage.removeItem(k));
+    router.push("/");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border/50 text-black bg-white/80">
-      <div className="container mx-auto flex items-center justify-between h-16 px-6">
-        {/* Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <Heart className="h-6 w-6 text-primary" />
-          <span className="font-bold text-xl">Solace</span>
+    <nav style={{
+      position: "sticky", top: 0, zIndex: 50,
+      background: "rgba(250,248,244,0.90)", backdropFilter: "blur(12px)",
+      borderBottom: "1px solid var(--border)", height: "60px",
+      display: "flex", alignItems: "center",
+      fontFamily: "var(--font-body)",
+    }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "var(--text)" }}>
+          <div style={{ width: "30px", height: "30px", borderRadius: "9px", background: "var(--sage)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Heart size={14} color="white" fill="white" />
+          </div>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: "18px", fontWeight: 400 }}>Solace</span>
         </Link>
 
-        {/* Navigation */}
-        <div className="flex items-center gap-1">
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           {navItems.map((item) => {
             const active = pathname === item.href;
-
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition ${
-                  active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                <item.icon className="h-4 w-4" />
-                <span className="hidden sm:inline">{item.label}</span>
+              <Link key={item.href} href={item.href} style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "7px 14px", borderRadius: "10px", fontSize: "13px", fontWeight: 500,
+                textDecoration: "none", transition: "all 0.15s",
+                background: active ? "var(--sage-pale)" : "transparent",
+                color: active ? "var(--sage-deep)" : "var(--text-muted)",
+              }}>
+                <item.icon size={15} />
+                <span style={{ display: window?.innerWidth < 640 ? "none" : "inline" }}>{item.label}</span>
               </Link>
             );
           })}
 
-          {/* Logout */}
-          <Link
-            href="/"
-            className="ml-2 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition"
+          <button onClick={handleLogout} style={{
+            display: "flex", alignItems: "center", gap: "6px",
+            padding: "7px 14px", borderRadius: "10px", fontSize: "13px", fontWeight: 500,
+            background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)",
+            transition: "all 0.15s", marginLeft: "4px",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background = "#fff0f0"; e.currentTarget.style.color = "#dc2626"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--text-muted)"; }}
           >
-            <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline bg-red-200 text-red-300">Logout</span>
-          </Link>
+            <LogOut size={15} />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </nav>
