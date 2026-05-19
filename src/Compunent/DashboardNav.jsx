@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Heart, LayoutDashboard, MessageCircle, UserCircle, LogOut } from "lucide-react";
 
@@ -12,6 +13,21 @@ const navItems = [
 export default function DashboardNav() {
   const pathname = usePathname();
   const router   = useRouter();
+
+  // FIXED PART
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   const handleLogout = () => {
     ["access","refresh","username","email"].forEach(k => localStorage.removeItem(k));
@@ -46,7 +62,9 @@ export default function DashboardNav() {
                 color: active ? "var(--sage-deep)" : "var(--text-muted)",
               }}>
                 <item.icon size={15} />
-                <span style={{ display: window?.innerWidth < 640 ? "none" : "inline" }}>{item.label}</span>
+                <span style={{ display: isMobile ? "none" : "inline" }}>
+                  {item.label}
+                </span>
               </Link>
             );
           })}
