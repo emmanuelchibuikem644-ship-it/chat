@@ -5,9 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { Heart, LayoutDashboard, MessageCircle, UserCircle, LogOut } from "lucide-react";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  
   { label: "Chat",      href: "/chat",      icon: MessageCircle  },
-  { label: "Profile",   href: "/profile",   icon: UserCircle     },
+  
 ];
 
 export default function DashboardNav() {
@@ -31,7 +31,7 @@ export default function DashboardNav() {
 
   const handleLogout = () => {
     ["access","refresh","username","email"].forEach(k => localStorage.removeItem(k));
-    router.push("/");
+    router.push("");
   };
 
   return (
@@ -43,7 +43,7 @@ export default function DashboardNav() {
       fontFamily: "var(--font-body)",
     }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "var(--text)" }}>
+        <Link href="/chat" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "var(--text)" }}>
           <div style={{ width: "30px", height: "30px", borderRadius: "9px", background: "var(--sage)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Heart size={14} color="white" fill="white" />
           </div>

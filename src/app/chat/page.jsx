@@ -42,7 +42,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (!localStorage.getItem("access")) {
-      router.replace("/login");
+      router.replace("/chat");
       return;
     }
 

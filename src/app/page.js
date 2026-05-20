@@ -21,10 +21,10 @@ export default function Home() {
             <span style={{ fontFamily: "var(--font-display)", fontSize: "20px", fontWeight: 400 }}>Solace</span>
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <Link href="/login" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", textDecoration: "none", border: "1px solid var(--border)", background: "transparent" }}>
-              Log in
+            <Link href="/chat" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", textDecoration: "none", border: "1px solid var(--border)", background: "transparent" }}>
+              let talk
             </Link>
-            <Link href="/signup" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "white", textDecoration: "none", background: "var(--sage)" }}>
+            <Link href="/chat" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "white", textDecoration: "none", background: "var(--sage)" }}>
               Get started
             </Link>
           </div>
@@ -63,7 +63,7 @@ export default function Home() {
           </p>
 
           <div className="animate-fade-up delay-300" style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", opacity: 0 }}>
-            <Link href="/signup" style={{
+            <Link href="/chat" style={{
               display: "inline-flex", alignItems: "center", gap: "8px",
               padding: "14px 28px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
               color: "white", textDecoration: "none", background: "var(--sage)",
@@ -71,13 +71,13 @@ export default function Home() {
             }}>
               Start your journey <ArrowRight size={16} />
             </Link>
-            <Link href="/login" style={{
+            <Link href="/chat" style={{
               display: "inline-flex", alignItems: "center", gap: "8px",
               padding: "14px 28px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
               color: "var(--text)", textDecoration: "none",
               background: "var(--surface)", border: "1px solid var(--border)",
             }}>
-              I have an account
+              Start a session <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function Home() {
           <p style={{ color: "var(--text-muted)", fontSize: "16px", marginBottom: "32px" }}>
             Join Solace today and take the first step on your wellness journey.
           </p>
-          <Link href="/signup" style={{
+          <Link href="/chat" style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             padding: "14px 32px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
             color: "white", textDecoration: "none", background: "var(--sage)",
