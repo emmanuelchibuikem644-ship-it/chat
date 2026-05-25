@@ -6,7 +6,7 @@ import Link from "next/link";
 import MessageList from "@/Compunent/chat/MessageList";
 import ChatInput from "@/Compunent/chat/ChatInput";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://final-year-chatbox-tqzq.onrender.com";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://chatbox-3-teuz.onrender.com";
 
 // Generate or retrieve a session ID for this browser session
 function getSessionId() {

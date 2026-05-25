@@ -21,11 +21,8 @@ export default function Home() {
             <span style={{ fontFamily: "var(--font-display)", fontSize: "20px", fontWeight: 400 }}>Solace</span>
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <Link href="/chat" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", textDecoration: "none", border: "1px solid var(--border)", background: "transparent" }}>
-              let talk
-            </Link>
             <Link href="/chat" style={{ padding: "8px 18px", borderRadius: "99px", fontSize: "14px", fontWeight: 500, color: "white", textDecoration: "none", background: "var(--sage)" }}>
-              Get started
+              start a session
             </Link>
           </div>
         </div>
@@ -69,16 +66,9 @@ export default function Home() {
               color: "white", textDecoration: "none", background: "var(--sage)",
               boxShadow: "0 4px 16px rgba(122,158,138,0.4)",
             }}>
-              Start your journey <ArrowRight size={16} />
-            </Link>
-            <Link href="/chat" style={{
-              display: "inline-flex", alignItems: "center", gap: "8px",
-              padding: "14px 28px", borderRadius: "99px", fontSize: "15px", fontWeight: 500,
-              color: "var(--text)", textDecoration: "none",
-              background: "var(--surface)", border: "1px solid var(--border)",
-            }}>
               Start a session <ArrowRight size={16} />
             </Link>
+           
           </div>
         </div>
 
