@@ -286,7 +286,7 @@ export default function Home() {
       <section style={{ padding: "80px 0 100px", background: "var(--surface)", overflow: "hidden" }}>
         <div style={{ textAlign: "center", marginBottom: "48px", padding: "0 24px" }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 400, marginBottom: "12px" }}>
-            What people are saying
+            emotional quote 
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Real experiences from people on their wellness journey.</p>
         </div>
